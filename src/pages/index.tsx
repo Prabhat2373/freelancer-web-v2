@@ -2,11 +2,13 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useRouter } from "next/router";
+import ClientLayout from '@/layout/client/ClientLayout';
 
 export default function Home() {
-  // if (role === "freelancer") {
-  //   router.replace("/fl");
-  // }
-  return <></>;
-  // return null;
+
+  return (
+    <ClientLayout>
+      <div>Client Dashboard</div>
+    </ClientLayout>
+  )
 }

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface FormData {
@@ -30,6 +31,7 @@ interface FormContextProps {
   setActiveStepIndex: React.Dispatch<React.SetStateAction<number>>;
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  handleNext: () => void;
 }
 
 export const FormContext = createContext<FormContextProps>({
@@ -37,6 +39,7 @@ export const FormContext = createContext<FormContextProps>({
   setActiveStepIndex: () => {},
   formData: {},
   setFormData: () => {},
+  handleNext: () => {},
 });
 
 export const FormContextProvider = ({ children }) => {
@@ -51,10 +54,71 @@ export const FormContextProvider = ({ children }) => {
       }
     }
   }, [activeStepIndex]);
+  const router = useRouter();
+
+  const { pathname } = router;
+  const onboardingLinks = [
+    {
+      title: "First, add a title to tell the world what you do.",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod.",
+      href: "/onboarding/title",
+      check: "title",
+      required: true,
+      isSkippable: false,
+    },
+    {
+      title: "First, add a title to tell the world what you do.",
+      href: "/onboarding/add-experience",
+      check: "title",
+      required: true,
+      isSkippable: false,
+    },
+    {
+      title: "First, add a title to tell the world what you do.",
+      href: "/onboarding/title",
+      check: "title",
+      required: true,
+      isSkippable: false,
+    },
+    {
+      title: "First, add a title to tell the world what you do.",
+      href: "/onboarding/title",
+      check: "title",
+      required: true,
+      isSkippable: false,
+    },
+    {
+      title: "First, add a title to tell the world what you do.",
+      href: "/onboarding/title",
+      check: "title",
+      required: true,
+      isSkippable: false,
+    },
+  ];
+
+  useEffect(() => {
+    onboardingLinks.forEach((link, index) => {
+      if (link.href.includes(pathname)) {
+        setActiveStepIndex(index);
+      }
+    });
+  }, [router]);
+  const handleNext = () => {
+    const { href } = onboardingLinks[activeStepIndex + 1];
+    setActiveStepIndex(activeStepIndex + 1);
+    router.push(href);
+  };
 
   return (
     <FormContext.Provider
-      value={{ activeStepIndex, setActiveStepIndex, formData, setFormData }}
+      value={{
+        activeStepIndex,
+        setActiveStepIndex,
+        formData,
+        setFormData,
+        handleNext,
+      }}
     >
       {children}
     </FormContext.Provider>

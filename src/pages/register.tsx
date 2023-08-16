@@ -4,6 +4,9 @@ import { Formik, Field, Form } from "formik";
 import { useOnboardingForm } from "@/contexts/FormContext";
 import InputField from "@/components/inputs/InputField";
 import { useRouter } from "next/router";
+import GuestLayout from "@/layout/GuestLayout";
+import Button from "@/components/buttons/Button";
+import Heading from "@/components/elements/Heading";
 
 function MainForm() {
   const { formData, setFormData } = useOnboardingForm();
@@ -37,71 +40,88 @@ function MainForm() {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ handleChange, values, errors }) => {
-        return (
-          <Form>
-            <div>
-              <h1>Register</h1>
-            </div>
+    <GuestLayout>
+      <div className="flex justify-center items-center flex-col px-32 py-6">
+        <div>
+          <Heading size="3xl">Complete your free account setup</Heading>
+        </div>
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          {({ handleChange, values, errors }) => {
+            console.log("errors", errors);
 
-            <div>
-              <InputField
-                id="firstName"
-                name="firstName"
-                onChange={handleChange}
-                value={values.firstName}
-                label="First Name"
-                error={errors?.firstName}
-              />
-            </div>
-            <div>
-              <InputField
-                id="lastName"
-                name="lastName"
-                onChange={handleChange}
-                value={values.lastName}
-                label="Last Name"
-                error={errors?.lastName}
-              />
-            </div>
-            <div>
-              <InputField
-                id="email"
-                name="email"
-                onChange={handleChange}
-                value={values.email}
-                label="email"
-                error={errors?.email}
-              />
-            </div>
-            <div>
-              <InputField
-                id="password"
-                name="password"
-                onChange={handleChange}
-                value={values.password}
-                label="password"
-                error={errors?.password}
-              />
-            </div>
-            <div>
-              <label>
-                <Field type="radio" name="role" value="freelancer" required />
-                Freelancer
-              </label>
+            return (
+              <Form>
+                {/* <div className="flex justify-between w-full">
+                  <h1 className="text-2xl">Register</h1>
+                </div> */}
 
-              <label>
-                <Field type="radio" name="role" value="client" required />
-                Client
-              </label>
-            </div>
+                <div className="flex gap-4 " >
+                  <div>
+                    <InputField
+                      id="firstName"
+                      name="firstName"
+                      onChange={handleChange}
+                      value={values.firstName}
+                      label="First Name"
+                      error={errors?.firstName}
+                    />
+                  </div>
+                  <div>
+                    <InputField
+                      id="lastName"
+                      name="lastName"
+                      onChange={handleChange}
+                      value={values.lastName}
+                      label="Last Name"
+                      error={errors?.lastName}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <InputField
+                    id="email"
+                    name="email"
+                    onChange={handleChange}
+                    value={values.email}
+                    label="email"
+                    error={errors?.email}
+                  />
+                </div>
+                <div>
+                  <InputField
+                    id="password"
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={values.password}
+                    label="password"
+                    error={errors?.password}
+                  />
+                </div>
+                <div>
+                  <label>
+                    <Field
+                      type="radio"
+                      name="role"
+                      value="freelancer"
+                      required
+                    />
+                    Freelancer
+                  </label>
 
-            <button type="submit">Submit</button>
-          </Form>
-        );
-      }}
-    </Formik>
+                  <label>
+                    <Field type="radio" name="role" value="client" required />
+                    Client
+                  </label>
+                </div>
+
+                <Button type="submit">Submit</Button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </div>
+    </GuestLayout>
   );
 }
 

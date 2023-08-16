@@ -1,3 +1,4 @@
+"use client";
 // import { RootState } from "@/store";
 import { BellIcon, UserIcon } from "lucide-react";
 import React, { useState } from "react";
@@ -18,23 +19,29 @@ const Navbar = () => {
 
       <div>
         {!isLoggedIn ? (
-          <ul className="flex gap-10">
-            <li className="text-base font-medium">Find Talent</li>
-            <li className="text-base font-medium">Find work</li>
-            <li className="text-base font-medium">why us</li>
-          </ul>
+          <div className="flex gap-10">
+            <Link href={"/fl/jobs"} className="text-base font-medium">
+              Find Talent
+            </Link>
+            <Link href={"/fl/jobs"} className="text-base font-medium">
+              Find work
+            </Link>
+            <Link href={"/fl/jobs"} className="text-base font-medium">
+              why us
+            </Link>
+          </div>
         ) : (
-          <ul className="flex gap-10">
-            <li className="text-base font-medium">
-              <Link href={"/fl/jobs"}>Browse projects</Link>
-            </li>
-            <li className="text-base font-medium">
-              <Link href="/fl/jobs">My Jobs</Link>
-            </li>
-            <li className="text-base font-medium">
-              <Link href={"/fl/messages"}>Messages</Link>
-            </li>
-          </ul>
+          <div className="flex gap-10">
+            {/* <li className="text-base font-medium"> */}
+            <Link href={"/fl/jobs"}>Browse projects</Link>
+            {/* </li> */}
+            {/* <li className="text-base font-medium"> */}
+            <Link href="/fl/jobs">My Jobs</Link>
+            {/* </li> */}
+            {/* <li className="text-base font-medium"> */}
+            <Link href={"/fl/messages"}>Messages</Link>
+            {/* </li> */}
+          </div>
         )}
       </div>
       <div className="flex gap-5">

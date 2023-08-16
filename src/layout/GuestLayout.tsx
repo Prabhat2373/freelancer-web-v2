@@ -1,5 +1,8 @@
 import React from "react";
-import Navbar from "../components/layout/Navbar";
+import dynamic from "next/dynamic";
+const Navbar = dynamic(() => import("../components/layout/Navbar"), {
+  ssr: false,
+});
 import Footer from "../components/layout/Footer";
 
 const GuestLayout = ({ children }) => {
