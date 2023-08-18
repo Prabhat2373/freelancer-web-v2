@@ -1,3 +1,8 @@
+import {
+  useLazyGetAccountQuery,
+  useUpdateAccountMutation,
+} from "@/features/rtk/app/userApi";
+import { statusHandler } from "@/utils/utils";
 import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -32,6 +37,8 @@ interface FormContextProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handleNext: () => void;
+  handleFormSubmit: (data: any) => Promise<void>;
+  handleBack: () => void;
 }
 
 export const FormContext = createContext<FormContextProps>({
@@ -40,12 +47,17 @@ export const FormContext = createContext<FormContextProps>({
   formData: {},
   setFormData: () => {},
   handleNext: () => {},
+  handleFormSubmit: (data: any) => {},
+  handleBack: () => {},
 });
 
 export const FormContextProvider = ({ children }) => {
   // const activeStep = window.localStorage.getItem("activeStepIndex");
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [formData, setFormData] = useState<FormData>({});
+
+  const [updateAccont, { isLoading }] = useUpdateAccountMutation();
+  const [getAccount] = useLazyGetAccountQuery();
 
   useEffect(() => {
     if (formData) {
@@ -70,27 +82,48 @@ export const FormContextProvider = ({ children }) => {
     {
       title: "First, add a title to tell the world what you do.",
       href: "/onboarding/add-experience",
+      check: "experience",
+      required: true,
+      isSkippable: false,
+    },
+    {
+      title: "First, add a title to tell the world what you do.",
+      href: "/onboarding/add-education",
       check: "title",
       required: true,
       isSkippable: false,
     },
     {
       title: "First, add a title to tell the world what you do.",
-      href: "/onboarding/title",
+      href: "/onboarding/add-languages",
       check: "title",
       required: true,
       isSkippable: false,
     },
     {
       title: "First, add a title to tell the world what you do.",
-      href: "/onboarding/title",
+      href: "/onboarding/add-skills",
       check: "title",
       required: true,
       isSkippable: false,
     },
     {
       title: "First, add a title to tell the world what you do.",
-      href: "/onboarding/title",
+      href: "/onboarding/add-description",
+      check: "title",
+      required: true,
+      isSkippable: false,
+    },
+    {
+      title: "First, add a title to tell the world what you do.",
+      href: "/onboarding/add-rate",
+      check: "title",
+      required: true,
+      isSkippable: false,
+    },
+    {
+      title: "First, add a title to tell the world what you do.",
+      href: "/onboarding/contact-info",
       check: "title",
       required: true,
       isSkippable: false,
@@ -105,9 +138,28 @@ export const FormContextProvider = ({ children }) => {
     });
   }, [router]);
   const handleNext = () => {
+    getAccount("").then((response) => {
+      setFormData(response?.data?.data);
+    });
     const { href } = onboardingLinks[activeStepIndex + 1];
     setActiveStepIndex(activeStepIndex + 1);
     router.push(href);
+  };
+
+  const handleBack = () => {
+    const { href } = onboardingLinks[activeStepIndex - 1];
+    setActiveStepIndex(activeStepIndex - 1);
+    router.push(href);
+  };
+
+  const handleFormSubmit = async (data) => {
+    console.log("valuasdes", data);
+    // setActiveStepIndex(activeStepIndex + 1);
+    const res = await updateAccont(data);
+    if (statusHandler(res).isSuccess()) {
+      console.log("response", res);
+      handleNext();
+    }
   };
 
   return (
@@ -118,6 +170,8 @@ export const FormContextProvider = ({ children }) => {
         formData,
         setFormData,
         handleNext,
+        handleFormSubmit,
+        handleBack,
       }}
     >
       {children}

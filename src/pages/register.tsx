@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Formik, Field, Form } from "formik";
 // import { useNavigate } from "react-router-dom";
 import { useOnboardingForm } from "@/contexts/FormContext";
@@ -7,36 +7,53 @@ import { useRouter } from "next/router";
 import GuestLayout from "@/layout/GuestLayout";
 import Button from "@/components/buttons/Button";
 import Heading from "@/components/elements/Heading";
+import { useRegisterMutation } from "@/features/rtk/app/mainApi";
+import { statusHandler } from "@/utils/utils";
+import { registerValidation } from "@/validators/registration/registrationValidator";
 
-function MainForm() {
+function Register() {
   const { formData, setFormData } = useOnboardingForm();
+  const [register, { isLoading: isRegistrationLoading }] =
+    useRegisterMutation();
   //   const nav = useNavigate();
   const router = useRouter();
-  const handleSubmit = (values) => {
-    console.log("values", values);
+  const initialValues = useMemo(() => {
+    return {
+      first_name: "",
+      last_name: "",
+      email: "",
+      role: "",
+      password: "",
+    };
+  }, []);
+  const handleSubmit = async (data: typeof initialValues) => {
+    console.log("values", data);
 
-    if (values.role === "freelancer") {
-      setFormData({
-        ...formData,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        role: values.role,
-        password: values.password,
-      });
-      router.push("/onboarding");
-    } else {
-      // Handle client form submission
-      // ...
+    // if (values.role === "freelancer") {
+    //   setFormData({
+    //     ...formData,
+    //     first_name: values.first_name,
+    //     last_name: values.last_name,
+    //     email: values.email,
+    //     role: values.role,
+    //     password: values.password,
+    //   });
+    //   // router.push("/onboarding");
+    // } else {
+    //   // Handle client form submission
+    //   // ...
+    // }
+    const payload = {
+      ...data,
+      username: data.first_name + " " + data.last_name,
+      first_name: undefined,
+      last_name: undefined,
+    };
+    const response = await register(payload);
+    if (statusHandler(response).isSuccess()) {
+      router.push("/onboarding/title");
     }
-  };
-
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    role: "",
-    password: "",
+    console.log("response", response);
   };
 
   return (
@@ -45,35 +62,35 @@ function MainForm() {
         <div>
           <Heading size="3xl">Complete your free account setup</Heading>
         </div>
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={registerValidation}
+          onSubmit={handleSubmit}
+        >
           {({ handleChange, values, errors }) => {
             console.log("errors", errors);
 
             return (
               <Form>
-                {/* <div className="flex justify-between w-full">
-                  <h1 className="text-2xl">Register</h1>
-                </div> */}
-
-                <div className="flex gap-4 " >
+                <div className="flex gap-4 ">
                   <div>
                     <InputField
-                      id="firstName"
-                      name="firstName"
+                      id="first_name"
+                      name="first_name"
                       onChange={handleChange}
-                      value={values.firstName}
+                      value={values.first_name}
                       label="First Name"
-                      error={errors?.firstName}
+                      error={errors?.first_name}
                     />
                   </div>
                   <div>
                     <InputField
-                      id="lastName"
-                      name="lastName"
+                      id="last_name"
+                      name="last_name"
                       onChange={handleChange}
-                      value={values.lastName}
+                      value={values.last_name}
                       label="Last Name"
-                      error={errors?.lastName}
+                      error={errors?.last_name}
                     />
                   </div>
                 </div>
@@ -125,4 +142,4 @@ function MainForm() {
   );
 }
 
-export default MainForm;
+export default Register;

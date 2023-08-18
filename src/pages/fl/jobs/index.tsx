@@ -4,6 +4,7 @@ import JobCard from "@/components/listing/JobCard";
 import Page from "@/components/page/Page";
 import { useGetJobListingQuery } from "@/features/rtk/app/mainApi";
 import FreelancerLayout from "@/layout/freelancer/FreelancerLayout";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";

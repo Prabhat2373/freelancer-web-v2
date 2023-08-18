@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const OnboardingContainer = () => {
-  return (
-    <div>OnboardingContainer</div>
-  )
-}
+  return <div>OnboardingContainer</div>;
+};
 
-export default OnboardingContainer
+export default OnboardingContainer;

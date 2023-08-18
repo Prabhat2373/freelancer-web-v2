@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 
 function Stepper() {
-  const { activeStepIndex, setActiveStepIndex } = useOnboardingForm();
+  const { activeStepIndex, setActiveStepIndex, handleBack } =
+    useOnboardingForm();
   const totalSteps = 8;
 
   useEffect(() => {
@@ -29,11 +30,7 @@ function Stepper() {
             <button
               type="button"
               className="flex items-center text-indigo-500"
-              onClick={() => {
-                if (activeStepIndex > 0) {
-                  setActiveStepIndex(activeStepIndex - 1);
-                }
-              }}
+              onClick={handleBack}
             >
               <FiArrowLeft className="mr-1" />
               Back

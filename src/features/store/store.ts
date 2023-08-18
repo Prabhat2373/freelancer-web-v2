@@ -16,6 +16,7 @@ import userReducer from "../slices/userReducer";
 import { mainApi } from "@rtk/app/mainApi";
 import onboardingSlice from "../slices/onboardingSlice";
 import { jobApi } from "@rtk/app/jobApi";
+import { userApi } from "../rtk/app/userApi";
 
 const persistConfig = {
   key: "root",
@@ -32,6 +33,7 @@ export const store = configureStore({
     // Add the generated reducer as a specific top-level slice
     [mainApi.reducerPath]: mainApi.reducer,
     [jobApi.reducerPath]: jobApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -41,6 +43,7 @@ export const store = configureStore({
       },
     })
       .concat(mainApi.middleware)
+      .concat(userApi.middleware)
       .concat(jobApi.middleware),
 });
 

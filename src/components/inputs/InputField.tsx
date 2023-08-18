@@ -1,4 +1,3 @@
-
 interface InputFieldProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -16,7 +15,7 @@ const InputField = ({ icon, error, type, ...props }: InputFieldProps) => {
     <>
       {props.label && <label htmlFor={props.id}>{props.label}</label>}
       <div className="flex items-center py-2 px-4 rounded-lg border border-gray-300">
-        {icon}
+        <span className="px-2">{icon}</span>
         <input
           {...props}
           type={type}
@@ -25,7 +24,7 @@ const InputField = ({ icon, error, type, ...props }: InputFieldProps) => {
         />
       </div>
 
-      {error && <span className="text-red-500">{error}</span>}
+      {/* {error && <span className="text-red-500">{error}</span>} */}
     </>
   );
 };
