@@ -1,5 +1,5 @@
 // Need to use the React-specific entry point to import createApi
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 // Define a service using a base URL and expected endpoints
 export const mainApi = createApi({
@@ -11,8 +11,8 @@ export const mainApi = createApi({
       headers.set(
         "authorization",
         `bearer ${String(localStorage.getItem("token"))}`
-      );
-      return headers;
+      )
+      return headers
     },
   }),
   endpoints: (builder) => ({
@@ -31,19 +31,15 @@ export const mainApi = createApi({
       }),
     }),
     getJobListing: builder.query({
-      query: () => ({
-        url: "job/listings",
-        // headers: {
-        //   Cookie:
-        //     "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAwZWI0ZGRiOThmNTM5YjAwNWQyMyIsImlhdCI6MTY4ODIxMTEyNCwiZXhwIjoxNjkwODAzMTI0fQ.IH9-Awy2gcneoqZnFTtGyU25pHDnkwPDayPXR7hLGuQ",
-        // },
-        // credentials: "include",
+      query: (params) => ({
+        url: `job/listings`,
+        params,
       }),
     }),
   }),
-});
+})
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const { useLoginMutation, useRegisterMutation, useGetJobListingQuery } =
-  mainApi;
+  mainApi

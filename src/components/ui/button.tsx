@@ -3,6 +3,9 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { Case, Default, Switch } from "../utils/Conditional"
+import Spinner from "../icons/Spinner"
+import SuccessIcon from "../icons/SuccessIcon"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -37,16 +40,58 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  isLoading?: boolean
+  isSuccess?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      isLoading,
+      isSuccess,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button"
+
+    const renderChildren = React.useMemo(() => {
+      // return (
+      //   <Switch>
+      //     <Case condition={isLoading}>
+      //       <Spinner /> wait..
+      //     </Case>
+      //     <Case condition={isSuccess}>
+      //       <SuccessIcon /> Done..
+      //     </Case>
+      //     <Default>{props.children}</Default>
+      //   </Switch>
+      // )
+      if (isLoading) {
+        return (
+          <div className="flex gap-2 items-center">
+            <Spinner /> wait..
+          </div>
+        )
+      }
+      if (isSuccess) {
+        return (
+          <div className="flex gap-2 items-center">
+            <SuccessIcon /> Done.
+          </div>
+        )
+      }
+    }, [isLoading, isSuccess])
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
+        children={renderChildren}
       />
     )
   }
