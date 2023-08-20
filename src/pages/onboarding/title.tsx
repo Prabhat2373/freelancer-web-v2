@@ -1,32 +1,20 @@
-import Button from "@/components/buttons/Button";
-import InputField from "@/components/inputs/InputField";
-import { useOnboardingForm } from "@/contexts/FormContext";
-import { useUpdateAccountMutation } from "@/features/rtk/app/userApi";
-import StepLayout from "@/layout/freelancer/StepLayout";
-import { statusHandler } from "@/utils/utils";
-import { titleStepValidation } from "@/validators/onboarding/onboardingValidator";
-import { Form, Formik } from "formik";
+import Button from "@/components/buttons/Button"
+import InputField from "@/components/inputs/InputField"
+import { useOnboardingForm } from "@/contexts/FormContext"
+import { useUpdateAccountMutation } from "@/features/rtk/app/userApi"
+import StepLayout from "@/layout/freelancer/StepLayout"
+import { statusHandler } from "@/utils/utils"
+import { titleStepValidation } from "@/validators/onboarding/onboardingValidator"
+import { ErrorMessage, Field, Form, Formik } from "formik"
 // import InputField from "../../components/inputs/InputField";
 
 const TitleStep = () => {
-  const { handleNext, handleFormSubmit, formData } = useOnboardingForm();
+  const { handleNext, handleFormSubmit, formData } = useOnboardingForm()
 
-  const initialValues = { title: formData?.title ?? "" };
-  const [updateAccont, { isLoading }] = useUpdateAccountMutation();
+  const initialValues = { title: formData?.title ?? "" }
+  const [updateAccont, { isLoading }] = useUpdateAccountMutation()
 
-  const handleUpdate = async (data) => {
-    console.log("valuasdes", data);
-    // setActiveStepIndex(activeStepIndex + 1);
-    const res = await updateAccont(data);
-    if (statusHandler(res).isSuccess()) {
-      console.log("response", res);
-      handleNext();
-    }
-    // const payload = { ...formData, ...data };
-    // setFormData(payload);
-    // handleNext();
-  };
-  console.log("formData", formData);
+  console.log("formData", formData)
 
   return (
     <StepLayout
@@ -41,15 +29,23 @@ const TitleStep = () => {
           validationSchema={titleStepValidation}
         >
           {({ values, errors, handleChange }) => {
+            console.log("errors", errors)
+
             return (
               <Form>
-                <InputField
+                <Field
+                  as={InputField}
                   placeholder="Give title"
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   name="title"
                   id="title"
                   value={values.title}
-                  error={errors.title}
+                  // error={errors.title}
+                />
+                <ErrorMessage
+                  className="text-red-500"
+                  component={"div"}
+                  name="title"
                 />
                 <div className="flex justify-center items-center py-12">
                   <Button
@@ -62,12 +58,12 @@ const TitleStep = () => {
                   </Button>
                 </div>
               </Form>
-            );
+            )
           }}
         </Formik>
       </div>
     </StepLayout>
-  );
-};
+  )
+}
 
-export default TitleStep;
+export default TitleStep

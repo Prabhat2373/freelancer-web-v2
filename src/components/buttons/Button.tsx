@@ -16,7 +16,7 @@ const Button = ({
   ...props
 }: IButtonProps) => {
   let buttonStyles: React.CSSProperties = {
-    padding: "0.75rem 2rem",
+    padding: "0.5rem 1rem",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

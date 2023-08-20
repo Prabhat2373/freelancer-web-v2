@@ -1,5 +1,5 @@
 // Need to use the React-specific entry point to import createApi
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 // Define a service using a base URL and expected endpoints
 export const userApi = createApi({
@@ -11,8 +11,8 @@ export const userApi = createApi({
       headers.set(
         "authorization",
         `bearer ${String(localStorage.getItem("token"))}`
-      );
-      return headers;
+      )
+      return headers
     },
   }),
   endpoints: (builder) => ({
@@ -26,8 +26,13 @@ export const userApi = createApi({
         body,
       }),
     }),
+    deleteExperience: builder.query({
+      query: (id: string) => ({
+        url: `/employment-history/${id}`,
+      }),
+    }),
   }),
-});
+})
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
@@ -35,4 +40,5 @@ export const {
   useLazyGetAccountQuery,
   useGetAccountQuery,
   useUpdateAccountMutation,
-} = userApi;
+  useLazyDeleteExperienceQuery,
+} = userApi

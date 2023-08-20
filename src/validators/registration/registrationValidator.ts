@@ -12,7 +12,7 @@ export const registerValidation = Yup.object({
     .email("Invalid email format")
     .required("Email is required"),
   role: Yup.string()
-    .oneOf(["user", "admin"], "Invalid role")
+    .oneOf(["freelancer", "client"], "Invalid role")
     .required("Role is required"),
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")

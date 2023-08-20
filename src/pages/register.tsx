@@ -1,22 +1,24 @@
-import React, { useMemo } from "react";
-import { Formik, Field, Form } from "formik";
+import React, { useMemo } from "react"
+import { Formik, Field, Form } from "formik"
 // import { useNavigate } from "react-router-dom";
-import { useOnboardingForm } from "@/contexts/FormContext";
-import InputField from "@/components/inputs/InputField";
-import { useRouter } from "next/router";
-import GuestLayout from "@/layout/GuestLayout";
-import Button from "@/components/buttons/Button";
-import Heading from "@/components/elements/Heading";
-import { useRegisterMutation } from "@/features/rtk/app/mainApi";
-import { statusHandler } from "@/utils/utils";
-import { registerValidation } from "@/validators/registration/registrationValidator";
+import { useOnboardingForm } from "@/contexts/FormContext"
+import InputField from "@/components/inputs/InputField"
+import { useRouter } from "next/router"
+import GuestLayout from "@/layout/GuestLayout"
+import Button from "@/components/buttons/Button"
+import Heading from "@/components/elements/Heading"
+import { useRegisterMutation } from "@/features/rtk/app/mainApi"
+import { statusHandler } from "@/utils/utils"
+import { registerValidation } from "@/validators/registration/registrationValidator"
+import { useDispatch } from "react-redux"
+import { LoginUser } from "@/features/slices/userReducer"
 
 function Register() {
-  const { formData, setFormData } = useOnboardingForm();
-  const [register, { isLoading: isRegistrationLoading }] =
-    useRegisterMutation();
+  const { formData, setFormData } = useOnboardingForm()
+  const [register, { isLoading: isRegistrationLoading }] = useRegisterMutation()
   //   const nav = useNavigate();
-  const router = useRouter();
+  const dispatch = useDispatch()
+  const router = useRouter()
   const initialValues = useMemo(() => {
     return {
       first_name: "",
@@ -24,37 +26,24 @@ function Register() {
       email: "",
       role: "",
       password: "",
-    };
-  }, []);
+    }
+  }, [])
   const handleSubmit = async (data: typeof initialValues) => {
-    console.log("values", data);
+    console.log("values", data)
 
-    // if (values.role === "freelancer") {
-    //   setFormData({
-    //     ...formData,
-    //     first_name: values.first_name,
-    //     last_name: values.last_name,
-    //     email: values.email,
-    //     role: values.role,
-    //     password: values.password,
-    //   });
-    //   // router.push("/onboarding");
-    // } else {
-    //   // Handle client form submission
-    //   // ...
-    // }
     const payload = {
       ...data,
       username: data.first_name + " " + data.last_name,
       first_name: undefined,
       last_name: undefined,
-    };
-    const response = await register(payload);
-    if (statusHandler(response).isSuccess()) {
-      router.push("/onboarding/title");
     }
-    console.log("response", response);
-  };
+    const response = await register(payload)
+    if (statusHandler(response).isSuccess()) {
+      dispatch(LoginUser(response?.data?.data))
+      router.push("/onboarding/title")
+    }
+    console.log("response", response)
+  }
 
   return (
     <GuestLayout>
@@ -68,7 +57,7 @@ function Register() {
           onSubmit={handleSubmit}
         >
           {({ handleChange, values, errors }) => {
-            console.log("errors", errors);
+            console.log("errors", errors)
 
             return (
               <Form>
@@ -134,12 +123,12 @@ function Register() {
 
                 <Button type="submit">Submit</Button>
               </Form>
-            );
+            )
           }}
         </Formik>
       </div>
     </GuestLayout>
-  );
+  )
 }
 
-export default Register;
+export default Register
