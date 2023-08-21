@@ -2,7 +2,7 @@ import InputField from "@/components/inputs/InputField"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DatePicker } from "@/components/ui/datePicker"
 import { Label } from "@/components/ui/label"
-import { ErrorMessage, useFormikContext } from "formik"
+import { ErrorMessage, Field, useFormikContext } from "formik"
 import Select from "react-select"
 
 const AddExperienceForm = ({ experience, handleDeleteForm, index }) => {
@@ -11,64 +11,24 @@ const AddExperienceForm = ({ experience, handleDeleteForm, index }) => {
     "experienceError",
     formik.errors.experience?.[index]?.company_name
   )
+  console.log("start_date", formik.values?.experience?.[index]?.start_date)
 
   return (
-    // <div>
-    //   <InputField
-    //     name="title"
-    //     onChange={formik.handleChange}
-    //     placeholder="Designation"
-    //     label="Title"
-    //   />
-    //   <div className="grid grid-cols-2 gap-3">
-    //     <div>
-    //       <InputField
-    //         name="company"
-    //         placeholder="Enter Company Name"
-    //         label="Company"
-    //         onChange={formik.handleChange}
-    //       />
-    //     </div>
-    //     <div>
-    //       <label>Employment Type </label>
-    //       <Select
-    //         name="emplyment_type"
-    //         placeholder="Part Time"
-    //         onChange={(value) =>
-    //           formik.setFieldValue("employment_type", value?.value)
-    //         }
-    //         options={[
-    //           { label: "Full Time", value: "full_time" },
-    //           { label: "Part Time", value: "part_time" },
-    //         ]}
-    //       />
-    //     </div>
-    //   </div>
-    //   <div>
-    //     <Label>Description</Label>
-    //     <Textarea name="description" />
-    //   </div>
-    //   {experience?.length >= 1 ? (
-    //     <div className="flex justify-end my-2">
-    //       <button
-    //         // variant="outlined"
-    //         type="button"
-    //         onClick={() => handleDeleteForm(index)}
-    //       >
-    //         <XSquare />
-    //       </button>
-    //     </div>
-    //   ) : null}
-    // </div>
     <div className="mb-4">
-      <InputField
+      <Field
+        as={InputField}
+        name={`experience[${index}].position`}
+        placeholder="Designation"
+        label="Position"
+      />
+      {/* <InputField
         name={`experience[${index}].position`}
         placeholder="Designation"
         label="Position"
         onChange={formik.handleChange}
         value={formik.values?.experience?.[index]?.position || ""}
         // error={formik.errors.experience?.[index]?.position}
-      />
+      /> */}
       <ErrorMessage
         name={`experience[${index}].position`}
         component={"div"}
@@ -116,17 +76,18 @@ const AddExperienceForm = ({ experience, handleDeleteForm, index }) => {
       <div className="flex flex-col">
         <label>Joined Date</label>
         <DatePicker
-          name={`experience[${index}].start_date`}
-          placeholder="Select Joined Date"
+          // name={`experience[${index}].start_date`}
+          // placeholder="Select Joined Date"
           onChange={(date) =>
             formik.setFieldValue(`experience[${index}].start_date`, date)
           }
           value={
-            formik.values?.experience?.[index]?.start_date
-              ? new Date(formik.values?.experience?.[index]?.start_date)
-              : undefined
+            formik.values?.experience?.[index]?.start_date &&
+            new Date(formik.values?.experience?.[index]?.start_date)
           }
+          // defaultValue={}
         />
+        {/* <Field as={DatePicker} name={`experience[${index}].start_date`} /> */}
         <ErrorMessage
           name={`experience[${index}].start_date`}
           component={"div"}
@@ -138,9 +99,16 @@ const AddExperienceForm = ({ experience, handleDeleteForm, index }) => {
         <DatePicker
           name={`experience[${index}].end_date`}
           placeholder="Select Ended Date"
-          onChange={(date) =>
+          onChange={(date) => {
+            console.log("date", date)
+
             formik.setFieldValue(`experience[${index}].end_date`, date)
-          }
+          }}
+          // value={
+          //   !!formik.values?.experience?.[index]?.end_date
+          //     ? new Date(formik.values?.experience?.[index]?.end_date)
+          //     : new Date()
+          // }
           value={
             formik.values?.experience?.[index]?.end_date
               ? new Date(formik.values?.experience?.[index]?.end_date)

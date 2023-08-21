@@ -13,7 +13,7 @@ import {
   useUpdateAccountMutation,
 } from "@/features/rtk/app/userApi"
 import { statusHandler } from "@/utils/utils"
-import { Case, Switch } from '@/components/utils/Conditional'
+import { Case, Switch } from "@/components/utils/Conditional"
 
 const AddExperience = () => {
   const {
@@ -22,7 +22,18 @@ const AddExperience = () => {
     handleFormSubmit,
   } = useOnboardingForm()
   const [experiences, setExperiences] = useState(
-    formData?.employment_history || []
+    formData?.employment_history || [
+      {
+        company_name: "",
+        position: "",
+        employment_type: "",
+        start_date: undefined,
+        end_date: undefined,
+        currently_working: false,
+        description: "",
+        skills_used: [],
+      },
+    ]
   )
   const [updateAccont] = useUpdateAccountMutation()
   const [deleteExperience, { isLoading: isDeleteExperienceLoading }] =
@@ -56,15 +67,17 @@ const AddExperience = () => {
   }
 
   const handleDeleteForm = async (deletedIndex: number) => {
-    const updatedExperience = experiences.find((_, idx) => idx === deletedIndex)
+    const updatedExperience = experiences.filter(
+      (_, idx) => idx !== deletedIndex
+    )
+    setExperiences(updatedExperience)
     // const payload = { ...updatedExperience, _id: undefined }
     // console.log("payload", payload)
 
-    const response = await deleteExperience(updatedExperience?._id)
-    if (statusHandler(response).isSuccess()) {
-      // setExperiences(response?.data?.data)
-
-    }
+    // const response = await deleteExperience(updatedExperience?._id)
+    // if (statusHandler(response).isSuccess()) {
+    //   // setExperiences(response?.data?.data)
+    // }
   }
 
   const handleNoExperience = () => {
@@ -105,9 +118,6 @@ const AddExperience = () => {
                   />
                 ))}
 
-                <Switch>
-                  <Case condition=''> </Case>
-                </Switch>
                 <div className="flex flex-col">
                   <label htmlFor="experience">Add Experience:</label>
                   <Button

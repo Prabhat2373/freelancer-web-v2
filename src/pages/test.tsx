@@ -1,28 +1,26 @@
-import { Button } from "@/components/ui/button"
-import React, { useState } from "react"
+import React from "react"
 
-const Test = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
+const fetchData = async () => {
+  const result = await fetch("https://dummyjson.com/products").then((res) =>
+    res.json()
+  )
+  console.log("result", result)
 
-  const handleClick = () => {
-    setIsLoading(true)
+  const response = await result
+  console.log("response", response)
+  return response
+}
 
-    setTimeout(() => {
-      setIsLoading(false)
-      setIsSuccess(true)
-    }, 2000)
-  }
-  console.log("isLoading", isLoading)
-  console.log("isSuccess", isSuccess)
+export default async function Page() {
+  const products = await fetchData()
+
+  console.log("products", products)
 
   return (
     <div>
-      <Button isLoading={isLoading} isSuccess={isSuccess} onClick={handleClick}>
-        Test Button
-      </Button>
+      {products?.products?.map((product) => {
+        return <div>{JSON.stringify(product?.title)}</div>
+      })}
     </div>
   )
 }
-
-export default Test

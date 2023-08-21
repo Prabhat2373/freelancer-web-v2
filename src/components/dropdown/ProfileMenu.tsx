@@ -14,7 +14,7 @@ import {
   UserIcon,
   UserPlus,
   Users,
-} from "lucide-react";
+} from "lucide-react"
 
 import {
   DropdownMenu,
@@ -29,13 +29,20 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Button from "../buttons/Button";
-import Link from "next/link";
+} from "@/components/ui/dropdown-menu"
+import Button from "../buttons/Button"
+import Link from "next/link"
+import { useDispatch } from "react-redux"
+import { LogoutUser } from "@/features/slices/userReducer"
 // import { Link } from "react-router-dom";
 
 export function ProfileMenu({ isOpen, setIsOpen }) {
-  console.log("isOpen", isOpen);
+  console.log("isOpen", isOpen)
+  const dispatch = useDispatch()
+  const handleLogout = () => {
+    dispatch(LogoutUser())
+    
+  }
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -118,7 +125,7 @@ export function ProfileMenu({ isOpen, setIsOpen }) {
           <span>API</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
@@ -136,5 +143,5 @@ export function ProfileMenu({ isOpen, setIsOpen }) {
     //     <DropdownMenuItem>Subscription</DropdownMenuItem>
     //   </DropdownMenuContent>
     // </DropdownMenu>
-  );
+  )
 }
