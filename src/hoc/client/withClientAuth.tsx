@@ -27,21 +27,21 @@ const withClientAuth = <P extends object>(
     const toastId = "clientToastId";
 
     const checkAuth = useCallback(() => {
-      if (!isLoggedIn) {
-        router.replace("/login");
-        return;
-      }
+      // if (!isLoggedIn) {
+      //   router.replace("/login");
+      //   return;
+      // }
 
-      if (user?.user_account?.role === USER_TYPES.CLIENT) {
-        setIsLoading(false);
-        return;
-      }
+      // if (user?.user_account?.role === USER_TYPES.CLIENT) {
+      //   setIsLoading(false);
+      //   return;
+      // }
 
-      if (user?.user_account?.role !== USER_TYPES.CLIENT) {
-        if (user?.user_account?.role === USER_TYPES.FREELANCER)
-          router.replace("/fl");
-        return;
-      }
+      // if (user?.user_account?.role !== USER_TYPES.CLIENT) {
+      //   if (user?.user_account?.role === USER_TYPES.FREELANCER)
+      //     router.replace("/fl");
+      //   return;
+      // }
 
       setIsLoading(false);
     }, [isLoggedIn, user, router]);
