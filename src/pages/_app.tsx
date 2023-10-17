@@ -6,12 +6,13 @@ import "@/styles/globals.css"
 import type { AppProps } from "next/app"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { AnimatePresence } from "framer-motion"
 import { Provider, useDispatch, useSelector } from "react-redux"
 
 const MyApp = ({ children }: any) => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const role = "freelancer"
+  // const role = "freelancer"
   const { user, isLoggedIn } = useSelector((state: RootState) => state.user)
   console.log("user", user)
   const [getAccount] = useLazyGetAccountQuery()
@@ -24,6 +25,15 @@ const MyApp = ({ children }: any) => {
     }
   }, [isLoggedIn])
 
+  // const role = user?.role
+  // let allowed = true
+  // if (router.pathname.startsWith("/fl") && role !== "freelancer") {
+  //   allowed = false
+  // }
+  // if (router.pathname.startsWith("/cl") && role !== "client") {
+  //   allowed = false
+  // }
+
   // useEffect(() => {
   //   if (role === "freelancer") {
   //     router.push("/fl");
@@ -33,11 +43,15 @@ const MyApp = ({ children }: any) => {
 }
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+  const pageKey = router.asPath
   return (
     <Provider store={store}>
       <FormContextProvider>
         <MyApp>
-          <Component {...pageProps} />
+          {/* <AnimatePresence initial={false} mode="popLayout"> */}
+          <Component key={pageKey} {...pageProps} />
+          {/* </AnimatePresence> */}
         </MyApp>
       </FormContextProvider>
     </Provider>

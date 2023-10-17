@@ -1,22 +1,25 @@
-import React, { useCallback, useMemo } from "react";
-import InputField from "@components/inputs/InputField";
-import Button from "@components/buttons/Button";
-import { FiKey, FiLock, FiMail } from "react-icons/fi";
-import { useLoginMutation } from "@rtk/app/mainApi";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
-import { LoginUser } from "../features/slices/userReducer";
-import { useRouter } from "next/router";
-import GuestLayout from "@/layout/GuestLayout";
-import Link from "next/link";
-import { loginValidation } from "@/validators/registration/registrationValidator";
+import React, { useCallback, useMemo } from "react"
+import InputField from "@components/inputs/InputField"
+import Button from "@components/buttons/Button"
+import { FiKey, FiLock, FiMail } from "react-icons/fi"
+import { useLoginMutation } from "@rtk/app/mainApi"
+import { ErrorMessage, Field, Form, Formik } from "formik"
+import { useDispatch } from "react-redux"
+import { LoginUser } from "../features/slices/userReducer"
+import { useRouter } from "next/router"
+import GuestLayout from "@/layout/GuestLayout"
+import Link from "next/link"
+import { loginValidation } from "@/validators/registration/registrationValidator"
+import PageTransition from "@/containers/app/PageTransition"
 // import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [Login] = useLoginMutation();
-  const dispatch = useDispatch();
+type IndexPageProps = {}
+type IndexPageRef = React.ForwardedRef<HTMLDivElement>
+const Login = (ref: IndexPageRef) => {
+  const [Login] = useLoginMutation()
+  const dispatch = useDispatch()
   //   const nav = useNavigate();
-  const router = useRouter();
+  const router = useRouter()
 
   const initialValues = useMemo(() => {
     // john.doe3@example.com
@@ -24,20 +27,20 @@ const Login = () => {
     return {
       email: "",
       password: "",
-    };
-  }, []);
+    }
+  }, [])
   const handleLogin = useCallback(async (data) => {
-    const res = await Login(data);
+    const res = await Login(data)
     if (res?.data?.success) {
-      dispatch(LoginUser(res?.data?.user));
+      dispatch(LoginUser(res?.data?.user))
 
       if (res?.data?.user?.user_account?.role === "freelancer") {
-        router.push("/fl/dashboard");
+        router.push("/fl/dashboard")
       } else if (res?.data?.user?.user_account?.role === "client") {
-        router.push("/fl/client");
+        router.push("/fl/client")
       }
     }
-  }, []);
+  }, [])
   return (
     <GuestLayout>
       <div className="flex justify-center items-center flex-col px-30 ">
@@ -99,12 +102,12 @@ const Login = () => {
                   </div>
                 </div>
               </Form>
-            );
+            )
           }}
         </Formik>
       </div>
     </GuestLayout>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

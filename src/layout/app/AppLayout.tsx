@@ -1,12 +1,18 @@
-import AppSuspense from "../../components/suspense/AppSuspense";
-import Layout from "../Layout";
+import { AnimatePresence } from "framer-motion"
+import AppSuspense from "../../components/suspense/AppSuspense"
+import Layout from "../Layout"
+import React from "react"
+import { useRouter } from "next/router"
+import PageTransitionLayout from "@/containers/app/PageTransition"
 
 const AppLayout = (props: any) => {
+  const router = useRouter()
+  const pageKey = router.asPath
   return (
-    <AppSuspense>
+    <>
       <Layout>{props.children}</Layout>
-    </AppSuspense>
-  );
-};
+    </>
+  )
+}
 
-export default AppLayout;
+export default AppLayout

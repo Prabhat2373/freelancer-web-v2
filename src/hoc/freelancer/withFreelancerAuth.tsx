@@ -27,27 +27,25 @@ const withFreelancerAuth = <P extends object>(
     const toastId = "clientToastId"
 
     const checkAuth = useCallback(() => {
-      // if (!isLoggedIn) {
-      //   router.replace("/login");
-      //   // toast.error("Please Log in to access", { toastId });
-      //   return;
-      // }
+      if (!isLoggedIn) {
+        router.replace("/login")
+        // toast.error("Please Log in to access", { toastId });
+        return
+      }
 
-      // if (user?.user_account?.role === USER_TYPES.FREELANCER) {
-      //   setIsLoading(false);
-      //   return;
-      // }
+      if (user?.role === USER_TYPES.FREELANCER) {
+        setIsLoading(false)
+        return
+      }
 
-      // if (user?.user_account?.role === USER_TYPES.CLIENT) {
-      //   setIsLoading(false);
-      //   return;
-      // }
-      // if (user?.user_account?.role !== USER_TYPES.FREELANCER) {
-      //   if (user?.user_account?.role === USER_TYPES.CLIENT)
-      //     router.replace("/cl");
-      //   // toast.error("You are not allowed to access this page.", { toastId });
-      //   return;
-      // }
+      if (user?.role === USER_TYPES.CLIENT) {
+        setIsLoading(false)
+        return
+      }
+      if (user?.role !== USER_TYPES.FREELANCER) {
+        if (user?.role === USER_TYPES.CLIENT) router.replace("/cl")
+        return
+      }
 
       setIsLoading(false)
     }, [isLoggedIn, user, router])

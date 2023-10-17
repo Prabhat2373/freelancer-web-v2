@@ -1,10 +1,10 @@
-import React from "react";
-
+import React from "react"
+import { motion } from "framer-motion"
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  variant?: "outlined" | "filled" | "outline-hover";
-  color?: string;
-  width?: string;
+  children: React.ReactNode
+  variant?: "outlined" | "filled" | "outline-hover"
+  color?: string
+  width?: string
 }
 
 const Button = ({
@@ -23,10 +23,10 @@ const Button = ({
     borderRadius: "9999px",
     fontWeight: "600",
     cursor: disabled ? "not-allowed" : "pointer",
-  };
+  }
 
   if (width) {
-    buttonStyles.width = width;
+    buttonStyles.width = width
   }
 
   switch (variant) {
@@ -38,7 +38,7 @@ const Button = ({
         color: disabled ? "gray" : color,
         backgroundColor: "transparent",
         transition: "background-color 0.3s, color 0.3s",
-      };
+      }
 
       if (!disabled) {
         buttonStyles = {
@@ -47,9 +47,9 @@ const Button = ({
             backgroundColor: color,
             color: "white",
           },
-        };
+        }
       }
-      break;
+      break
     case "outline-hover":
       buttonStyles = {
         ...buttonStyles,
@@ -58,8 +58,8 @@ const Button = ({
         color: "white",
         backgroundColor: color,
         transition: "background-color 0.3s, color 0.3s",
-      };
-      break;
+      }
+      break
     case "filled":
     default:
       buttonStyles = {
@@ -67,19 +67,20 @@ const Button = ({
         color: "white",
         backgroundColor: color,
         transition: "background-color 0.3s, color 0.3s",
-      };
-      break;
+      }
+      break
   }
 
   return (
-    <button
+    <motion.button
       style={buttonStyles}
       {...props}
+      whileTap={{ scale: 0.9 }}
       className={`${variant === "outlined" ? `hover:bg-${color}-500` : ""}`}
     >
       {children}
-    </button>
-  );
-};
+    </motion.button>
+  )
+}
 
-export default Button;
+export default Button

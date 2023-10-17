@@ -6,7 +6,7 @@ export const mainApi = createApi({
   reducerPath: "mainApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8001/api/v1/",
-    credentials: "include",
+    // credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       headers.set(
         "authorization",
