@@ -12,6 +12,7 @@ import { statusHandler } from "@/utils/utils"
 import { registerValidation } from "@/validators/registration/registrationValidator"
 import { useDispatch } from "react-redux"
 import { LoginUser } from "@/features/slices/userReducer"
+import Cookies from "js-cookie"
 
 function Register() {
   const { formData, setFormData } = useOnboardingForm()
@@ -40,6 +41,8 @@ function Register() {
     const response = await register(payload)
     if (statusHandler(response).isSuccess()) {
       dispatch(LoginUser(response?.data?.data))
+      Cookies.set("token", response?.data?.token)
+      
       router.push("/onboarding/title")
     }
     console.log("response", response)

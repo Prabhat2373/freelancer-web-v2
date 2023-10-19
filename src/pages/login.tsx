@@ -11,11 +11,10 @@ import GuestLayout from "@/layout/GuestLayout"
 import Link from "next/link"
 import { loginValidation } from "@/validators/registration/registrationValidator"
 import PageTransition from "@/containers/app/PageTransition"
+import { USER_TYPES } from "@/constants/app.constant"
 // import { useNavigate } from "react-router-dom";
 
-type IndexPageProps = {}
-type IndexPageRef = React.ForwardedRef<HTMLDivElement>
-const Login = (ref: IndexPageRef) => {
+const Login = () => {
   const [Login] = useLoginMutation()
   const dispatch = useDispatch()
   //   const nav = useNavigate();
@@ -25,25 +24,41 @@ const Login = (ref: IndexPageRef) => {
     // john.doe3@example.com
     // password123
     return {
-      email: "",
-      password: "",
+      email: "prabhattambe10@gmail.com",
+      password: "123456789",
     }
   }, [])
-  const handleLogin = useCallback(async (data) => {
-    const res = await Login(data)
-    if (res?.data?.success) {
-      dispatch(LoginUser(res?.data?.user))
 
-      if (res?.data?.user?.user_account?.role === "freelancer") {
+  const handleFreelancerLogin = () => {
+    router.push("/fl/dashboard")
+  }
+  const handleClientLogin = () => {
+    router.push("/fl/client")
+  }
+
+  const handleLogin = async (data) => {
+    const res = await Login(data)
+    console.log("response", res)
+    console.log("role", res?.data?.data?.user_account?.role)
+    console.log("status", res?.data?.status === "success")
+
+    if (res?.data?.status === "success") {
+      // dispatch(LoginUser(res?.data?.user_account))
+
+      if (res?.data?.data?.user_account?.role === "freelancer") {
+        console.log("freelanceLogin")
         router.push("/fl/dashboard")
-      } else if (res?.data?.user?.user_account?.role === "client") {
-        router.push("/fl/client")
+        dispatch(LoginUser(res?.data?.user_account))
+        handleFreelancerLogin()
+      } else if (res?.data?.data?.user_account?.role === USER_TYPES.CLIENT) {
+        dispatch(LoginUser(res?.data?.user_account))
+        handleClientLogin()
       }
     }
-  }, [])
+  }
   return (
     <GuestLayout>
-      <div className="flex justify-center items-center flex-col px-30 ">
+      <div className="flex justify-center h-[70vh] items-center flex-col px-30 ">
         <Formik
           initialValues={initialValues}
           validationSchema={loginValidation}

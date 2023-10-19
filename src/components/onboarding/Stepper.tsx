@@ -1,40 +1,42 @@
-import { useOnboardingForm } from "@/contexts/FormContext";
-import React, { useEffect } from "react";
-import { FiArrowLeft } from "react-icons/fi";
+import { useOnboardingForm } from "@/contexts/FormContext"
+import React, { useEffect } from "react"
+import { FiArrowLeft } from "react-icons/fi"
 
 function Stepper() {
   const { activeStepIndex, setActiveStepIndex, handleBack } =
-    useOnboardingForm();
-  const totalSteps = 8;
+    useOnboardingForm()
+  const totalSteps = 8
 
   useEffect(() => {
-    const stepperItems = document.querySelectorAll(".stepper-item");
+    const stepperItems = document.querySelectorAll(".stepper-item")
 
     stepperItems.forEach((step, i) => {
       if (i <= activeStepIndex) {
-        step.classList.add("bg-indigo-500", "text-white");
+        step.classList.add("bg-indigo-500", "text-white")
       } else {
-        step.classList.remove("bg-indigo-500", "text-white");
+        step.classList.remove("bg-indigo-500", "text-white")
       }
-    });
-  }, [activeStepIndex]);
-  const progressValue = `${((activeStepIndex + 1) / totalSteps) * 100}`;
+    })
+  }, [activeStepIndex])
+  const progressValue = `${((activeStepIndex + 1) / totalSteps) * 100}`
 
-  console.log("progressValue", progressValue);
+  console.log("progressValue", progressValue)
 
   return (
     <div className=" flex flex-col items-center justify-center px-32 ">
       <div className="w-2/3">
         <div className="w-full">
           <div className="flex items-center justify-between w-full mb-4">
-            <button
-              type="button"
-              className="flex items-center text-indigo-500"
-              onClick={handleBack}
-            >
-              <FiArrowLeft className="mr-1" />
-              Back
-            </button>
+            {activeStepIndex >= 1 ? (
+              <button
+                type="button"
+                className="flex items-center text-indigo-500"
+                onClick={handleBack}
+              >
+                <FiArrowLeft className="mr-1" />
+                Back
+              </button>
+            ) : null}
             <div className="text-center font-medium text-gray-500">
               Step {activeStepIndex + 1} of {totalSteps}
             </div>
@@ -51,7 +53,7 @@ function Stepper() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Stepper;
+export default Stepper

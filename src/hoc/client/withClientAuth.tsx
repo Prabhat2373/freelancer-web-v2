@@ -8,7 +8,7 @@ import { useRouter } from "next/router"
 // import { toast } from "react-toastify";
 import { useSelector } from "react-redux"
 import type { RootState } from "@/features/store/store"
-import { USER_TYPES } from "@/constants/appConstants"
+import { USER_TYPES } from "@/constants/app.constant"
 import AppLayout from "@/layout/app/AppLayout"
 
 const withClientAuth = <P extends object>(

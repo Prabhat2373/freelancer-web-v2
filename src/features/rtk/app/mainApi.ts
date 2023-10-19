@@ -22,6 +22,7 @@ export const mainApi = createApi({
         method: "POST",
         body,
       }),
+      // transformResponse: (res) => res.data,
     }),
     register: builder.mutation({
       query: (body) => ({

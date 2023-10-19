@@ -24,3 +24,20 @@ export const addExperienceValidation = Yup.object().shape({
     })
   ),
 })
+
+export const addEducationValidation = Yup.object().shape({
+  education: Yup.array().of(
+    Yup.object().shape({
+      institution: Yup.string().required("Institution is required"),
+      degree: Yup.string().required("Degree is required"),
+      fieldOfStudy: Yup.string().required("Field of Study is required"),
+      startYear: Yup.string().required("Start year is required"),
+      endYear: Yup.string().nullable(),
+      description: Yup.string().required("Description is required"),
+    })
+  ),
+})
+
+export const onboardingLanguageValidation = Yup.object().shape({
+  language: Yup.string().required("Please Select Language"),
+})

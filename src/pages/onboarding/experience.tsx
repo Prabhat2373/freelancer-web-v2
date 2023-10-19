@@ -22,18 +22,29 @@ const AddExperience = () => {
     handleFormSubmit,
   } = useOnboardingForm()
   const [experiences, setExperiences] = useState(
-    formData?.employment_history || [
-      {
-        company_name: "",
-        position: "",
-        employment_type: "",
-        start_date: undefined,
-        end_date: undefined,
-        currently_working: false,
-        description: "",
-        skills_used: [],
-      },
-    ]
+    formData?.employment_history?.length
+      ? formData?.employment_history?.map((history) => ({
+          company_name: history?.company_name ?? "",
+          position: history?.position ?? "",
+          employment_type: history?.employment_type ?? "",
+          start_date: history?.start_date ?? undefined,
+          end_date: history?.end_date ?? undefined,
+          currently_working: history?.currently_working ?? false,
+          description: history?.description ?? "",
+          skills_used: history?.skills_used ?? [],
+        }))
+      : [
+          {
+            company_name: "",
+            position: "",
+            employment_type: "",
+            start_date: undefined,
+            end_date: undefined,
+            currently_working: false,
+            description: "",
+            skills_used: [],
+          },
+        ]
   )
   const [updateAccont] = useUpdateAccountMutation()
   const [deleteExperience, { isLoading: isDeleteExperienceLoading }] =
@@ -41,28 +52,12 @@ const AddExperience = () => {
 
   console.log("formData", formData)
 
-  // const initialValues = {
-  //   experience: [
-  //     {
-  //       company_name: "",
-  //       position: "",
-  //       employment_type: "",
-  //       start_date: null,
-  //       end_date: null,
-  //       currently_working: false,
-  //       description: "",
-  //       skills_used: [],
-  //     },
-  //   ],
-  // }
   const initialValues = {
     experience: experiences,
   }
 
-  const [showForm, setShowForm] = useState(false)
-
   const handleAddClick = () => {
-    setShowForm(true)
+    // setShowForm(true)
     setExperiences([...experiences, initialValues.experience])
   }
 
@@ -71,13 +66,6 @@ const AddExperience = () => {
       (_, idx) => idx !== deletedIndex
     )
     setExperiences(updatedExperience)
-    // const payload = { ...updatedExperience, _id: undefined }
-    // console.log("payload", payload)
-
-    // const response = await deleteExperience(updatedExperience?._id)
-    // if (statusHandler(response).isSuccess()) {
-    //   // setExperiences(response?.data?.data)
-    // }
   }
 
   const handleNoExperience = () => {
@@ -119,7 +107,7 @@ const AddExperience = () => {
                 ))}
 
                 <div className="flex flex-col">
-                  <label htmlFor="experience">Add Experience:</label>
+                  {/* <label htmlFor="experience">Add Experience:</label> */}
                   <Button
                     variant="outlined"
                     onClick={handleAddClick}
@@ -132,12 +120,11 @@ const AddExperience = () => {
                 <div>
                   <Checkbox
                     id="experience"
-                    onChange={(e) => {
-                      console.log("event", e)
-                    }}
                     onCheckedChange={(checked) => {
                       if (checked) {
                         handleNoExperience()
+                      } else {
+                        handleAddClick()
                       }
                     }}
                     // onClick={handleNoExperience}

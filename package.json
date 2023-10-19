@@ -22,6 +22,7 @@
     "autoprefixer": "10.4.14",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
+    "cookies-js": "^1.2.3",
     "date-fns": "^2.30.0",
     "eslint": "8.46.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -29,6 +30,7 @@
     "eslint-config-next": "13.4.12",
     "formik": "^2.4.3",
     "framer-motion": "^10.16.4",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.268.0",
     "next": "13.4.12",
     "next-auth": "^4.23.2",
@@ -47,5 +49,8 @@
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
     "yup": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.5"
   }
 }
