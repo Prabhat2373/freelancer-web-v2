@@ -12,6 +12,7 @@ import Link from "next/link"
 import { loginValidation } from "@/validators/registration/registrationValidator"
 import PageTransition from "@/containers/app/PageTransition"
 import { USER_TYPES } from "@/constants/app.constant"
+import Cookies from "js-cookie"
 // import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -44,7 +45,7 @@ const Login = () => {
 
     if (res?.data?.status === "success") {
       // dispatch(LoginUser(res?.data?.user_account))
-
+      Cookies.set("token", res?.data?.token)
       if (res?.data?.data?.user_account?.role === "freelancer") {
         console.log("freelanceLogin")
         router.push("/fl/dashboard")
