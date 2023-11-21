@@ -12,12 +12,12 @@ import PageTransitionLayout from "@/containers/app/PageTransition"
 const ClientLayout = ({ children }) => {
   const router = useRouter()
   const { user } = useSelector((state: RootState) => state.user)
-  useEffect(() => {
-    if (router.pathname.startsWith("/cl") && user?.role !== "client") {
-      router.replace("/fl")
-      return
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (router.pathname.startsWith("/cl") && user?.role !== "client") {
+  //     router.replace("/fl")
+  //     return
+  //   }
+  // }, [])
   return (
     <div>
       <Navbar />
@@ -29,4 +29,4 @@ const ClientLayout = ({ children }) => {
   )
 }
 
-export default withClientProtection(ClientLayout)
+export default ClientLayout

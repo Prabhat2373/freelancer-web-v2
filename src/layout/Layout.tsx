@@ -7,6 +7,7 @@ import FreelancerLayout from "./freelancer/FreelancerLayout"
 import { useRouter } from "next/router"
 import { RootState } from "@/features/store/store"
 
+
 interface LayoutProps {
   children: ReactNode
 }
@@ -25,7 +26,6 @@ const Layout = ({ children }: LayoutProps) => {
 
     if (pagePath.startsWith("/fl") && role === "freelancer") {
       return <FreelancerLayout>{children}</FreelancerLayout>
-      
     } else if (pagePath.startsWith("/cl") && role === "client") {
       return <ClientLayout>{children}</ClientLayout>
     } else if (

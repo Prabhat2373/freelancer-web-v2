@@ -8,6 +8,7 @@ import { useSelector } from "react-redux"
 import { RootState } from "@/features/store/store"
 import useAuth from "@/hoc/app/useAuth"
 import PageTransitionLayout from "@/containers/app/PageTransition"
+import { ToastContainer } from "react-toastify"
 
 const FreelancerLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter()
@@ -18,14 +19,15 @@ const FreelancerLayout = ({ children }: { children: ReactNode }) => {
     <div>
       <Navbar />
       <PageTransitionLayout>
-        <Suspense fallback={<FreelancerLoading />}>
-          <main className="">{children}</main>
-        </Suspense>
+        {/* <Suspense fallback={<FreelancerLoading />}> */}
+        <main className="">{children}</main>
+        {/* </Suspense> */}
+        <ToastContainer />
       </PageTransitionLayout>
       <Footer />
     </div>
   )
 }
 
-export default withFreelancerProtection(FreelancerLayout)
+export default FreelancerLayout
 // export default FreelancerLayout

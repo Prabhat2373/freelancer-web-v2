@@ -8,7 +8,8 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { AnimatePresence } from "framer-motion"
 import { Provider, useDispatch, useSelector } from "react-redux"
-
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 const MyApp = ({ children }: any) => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -16,6 +17,12 @@ const MyApp = ({ children }: any) => {
   const { user, isLoggedIn } = useSelector((state: RootState) => state.user)
   console.log("user", user)
   const [getAccount] = useLazyGetAccountQuery()
+
+  const templateFn = (strings: TemplateStringsArray, name: string) => {
+    console.log("strings", strings, "name", name)
+  }
+  const name = "Prabhat"
+  templateFn`this is my name : ${name}`
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -45,13 +52,12 @@ const MyApp = ({ children }: any) => {
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const pageKey = router.asPath
+
   return (
     <Provider store={store}>
       <FormContextProvider>
         <MyApp>
-          {/* <AnimatePresence initial={false} mode="popLayout"> */}
           <Component key={pageKey} {...pageProps} />
-          {/* </AnimatePresence> */}
         </MyApp>
       </FormContextProvider>
     </Provider>
