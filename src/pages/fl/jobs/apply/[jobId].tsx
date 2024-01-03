@@ -1,18 +1,18 @@
-import Button from "@/components/buttons/Button";
-import Page from "@/components/page/Page";
-import { Badge } from "@/components/ui/badge";
-import { useGetJobByIdQuery } from "@/features/rtk/app/jobApi";
-import FreelancerLayout from "@/layout/freelancer/FreelancerLayout";
-import { useRouter } from "next/router";
-import React from "react";
+import Button from "@/components/buttons/Button"
+import Page from "@/components/page/Page"
+import { Badge } from "@/components/ui/badge"
+import { useGetJobByIdQuery } from "@/features/rtk/jobs/jobsApi"
+import FreelancerLayout from "@/layout/freelancer/FreelancerLayout"
+import { useRouter } from "next/router"
+import React from "react"
 
 const ApplyJob = () => {
-  const router = useRouter();
+  const router = useRouter()
   //   const { id } = useParams();
-  const id = router.query?.jobId;
-  const { data: jobDetails } = useGetJobByIdQuery(id);
-  console.log("ID", id);
-  console.log("jobDetails", jobDetails);
+  const id = router.query?.jobId
+  const { data: jobDetails } = useGetJobByIdQuery(id)
+  console.log("ID", id)
+  console.log("jobDetails", jobDetails)
   return (
     <FreelancerLayout>
       <Page>
@@ -27,7 +27,7 @@ const ApplyJob = () => {
           </div>
           <div className="flex flex-wrap gap-2">
             {jobDetails?.data?.required_skills?.map((skill: any) => {
-              return <Badge key={skill._id}>{skill?.skill_name}</Badge>;
+              return <Badge key={skill._id}>{skill?.skill_name}</Badge>
             })}
             <span className="inline-block px-3 py-1 bg-blue-500 text-white rounded-md">
               Skill 1
@@ -73,7 +73,7 @@ const ApplyJob = () => {
         </div>
       </Page>
     </FreelancerLayout>
-  );
-};
+  )
+}
 
-export default ApplyJob;
+export default ApplyJob

@@ -1,32 +1,32 @@
-import SearchBox from "@/components/home/SearchBox";
-import FilterSection from "@/components/listing/Filter";
-import JobCard from "@/components/listing/JobCard";
-import Page from "@/components/page/Page";
-import { useGetJobListingQuery } from "@/features/rtk/app/mainApi";
-import FreelancerLayout from "@/layout/freelancer/FreelancerLayout";
-import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
-import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import SearchBox from "@/components/home/SearchBox"
+import FilterSection from "@/components/listing/Filter"
+import JobCard from "@/components/listing/JobCard"
+import Page from "@/components/page/Page"
+import { useGetJobListingQuery } from "@/features/rtk/app/mainApi"
+import AppLayout from "@/layout/app/AppLayout"
+import FreelancerLayout from "@/layout/freelancer/FreelancerLayout"
+import { NextPageWithLayout } from "@/types/app"
+import { GetServerSideProps } from "next"
+import { useRouter } from "next/router"
+import React, { ReactElement, useState } from "react"
 
-const JobsIndex = () => {
-  const { data: jobListings } = useGetJobListingQuery("");
-  console.log("jobListings", jobListings);
-  //   const nav = useNavigate();
-  const router = useRouter();
+const JobsIndex: NextPageWithLayout = () => {
+  const { data: jobListings } = useGetJobListingQuery("")
+  console.log("jobListings", jobListings)
+  const router = useRouter()
   const [filters, setFilters] = useState({
     fixedPrice: false,
     hourlyPrice: false,
     priceRange: false,
     skills: [],
     location: "",
-  });
+  })
 
   const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-  };
+    setFilters(newFilters)
+  }
   return (
-    <FreelancerLayout>
+    <React.Fragment>
       <Page>
         <div className="flex flex-col w-full mb-5 pt-5">
           <SearchBox />
@@ -55,21 +55,21 @@ const JobsIndex = () => {
           </div>
           <div className="account col-span-9 gap-5 flex flex-col">
             <div>
-              {jobListings?.jobs?.map((job) => {
+              {jobListings?.data?.map((job) => {
                 return (
                   <JobCard
                     key={job?._id}
                     data={job}
                     onClick={() => router.push(`/fl/jobs/view/${job._id}`)}
                   />
-                );
+                )
               })}
             </div>
           </div>
         </div>
       </Page>
-    </FreelancerLayout>
-  );
-};
+    </React.Fragment>
+  )
+}
 
-export default JobsIndex;
+export default JobsIndex

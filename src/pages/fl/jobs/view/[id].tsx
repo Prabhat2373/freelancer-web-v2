@@ -1,18 +1,28 @@
-import Button from "@/components/buttons/Button";
-import Page from "@/components/page/Page";
-import { Badge } from "@/components/ui/badge";
-import { useGetJobByIdQuery } from "@/features/rtk/app/jobApi";
-import FreelancerLayout from "@/layout/freelancer/FreelancerLayout";
-import { useRouter } from "next/router";
-import React from "react";
+import Button from "@/components/buttons/Button"
+import Page from "@/components/page/Page"
+import { Badge } from "@/components/ui/badge"
+import {
+  useGetJobByIdQuery,
+  useLazyGetJobByIdQuery,
+} from "@/features/rtk/jobs/jobsApi"
+// import { useGetJobByIdQuery } from "@/features/rtk/app/jobsApi"
+import FreelancerLayout from "@/layout/freelancer/FreelancerLayout"
+import { useRouter } from "next/router"
+import React, { useEffect } from "react"
 // import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const ViewJob = () => {
-  const router = useRouter();
-  const id = router.query?.id;
-  const { data: jobDetails } = useGetJobByIdQuery(id);
-  console.log("ID", id);
-  console.log("jobDetails", jobDetails);
+  const router = useRouter()
+  const id = router.query?.id
+  const [getJobsDetails, { data: jobDetails }] = useLazyGetJobByIdQuery()
+
+  useEffect(() => {
+    if (id) {
+      getJobsDetails(id)
+    }
+  }, [id])
+  console.log("ID", id)
+  console.log("jobDetails", jobDetails)
 
   return (
     <FreelancerLayout>
@@ -34,7 +44,7 @@ const ViewJob = () => {
               <h2 className="text-lg font-semibold">Skills</h2>
               <div className="flex flex-wrap gap-2">
                 {jobDetails?.data?.required_skills?.map((skill) => {
-                  return <Badge key={skill._id}>{skill?.skill_name}</Badge>;
+                  return <Badge key={skill._id}>{skill?.skill_name}</Badge>
                 })}
                 <span className="inline-block px-3 py-1 bg-blue-500 text-white rounded-md">
                   Skill 1
@@ -80,7 +90,7 @@ const ViewJob = () => {
         </div>
       </Page>
     </FreelancerLayout>
-  );
-};
+  )
+}
 
-export default ViewJob;
+export default ViewJob

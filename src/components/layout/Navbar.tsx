@@ -8,15 +8,19 @@ import { ProfileMenu } from "../dropdown/ProfileMenu"
 import { RootState } from "@/features/store/store"
 import Link from "next/link"
 import HydrationWrapper from "@/hoc/app/HydrationWrapper"
+import { USER_TYPES } from "@/constants/app.constant"
 
 const Navbar = () => {
   const { user, isLoggedIn } = useSelector((state: RootState) => state.user)
   const [isOpen, setIsOpen] = useState(false)
+  const homeRoute = user?.role === USER_TYPES.FREELANCER ? "/fl" : "/cl"
   return (
     <HydrationWrapper>
       <nav className="bg-white flex justify-between px-16 py-4 items-center ">
         <div>
-          <h1 className="text-[#FF4C4A] text-3xl font-bold">Logo</h1>
+          <Link href={homeRoute}>
+            <h1 className="text-[#FF4C4A] text-3xl font-bold">Logo</h1>
+          </Link>
         </div>
 
         <div>

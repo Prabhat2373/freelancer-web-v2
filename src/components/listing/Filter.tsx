@@ -1,58 +1,59 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
+import PriceSlider from "../filter/PriceSlider"
+import SkillsFilterContainer from "@/containers/filter/SkillsFilterContainer"
 
 interface FilterProps {
   filters: {
-    fixedPrice: boolean;
-    hourlyPrice: boolean;
+    fixedPrice: boolean
+    hourlyPrice: boolean
     priceRange: {
-      from: number;
-      to: number;
-    };
-    skills: string[];
-    location: string;
-  };
-  onChange: (newFilters: FilterProps["filters"]) => void;
+      from: number
+      to: number
+    }
+    skills: string[]
+    location: string
+  }
+  onChange: (newFilters: FilterProps["filters"]) => void
 }
 
 const FilterSection: React.FC<FilterProps> = ({ filters, onChange }) => {
-  const [selectedSkills, setSelectedSkills] = useState<string[]>(
-    filters.skills
-  );
+  const [selectedSkills, setSelectedSkills] = useState<string[]>(filters.skills)
 
   const handleCheckboxChange = (skill: string) => {
     if (selectedSkills.includes(skill)) {
-      setSelectedSkills((prevSkills) => prevSkills.filter((s) => s !== skill));
+      setSelectedSkills((prevSkills) => prevSkills.filter((s) => s !== skill))
     } else {
-      setSelectedSkills((prevSkills) => [...prevSkills, skill]);
+      setSelectedSkills((prevSkills) => [...prevSkills, skill])
     }
-  };
+  }
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
+    const { name, checked } = event.target
     onChange({
       ...filters,
       [name]: checked,
       skills: selectedSkills,
-    });
-  };
+    })
+  }
   const handlePriceRangeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target
     onChange({
       ...filters,
       priceRange: {
         ...filters.priceRange,
         [name]: Number(value),
       },
-    });
-  };
+    })
+  }
 
   return (
     <aside className="w-64 bg-white p-4 shadow-md">
       <h2 className="text-lg font-medium mb-4">Filters</h2>
       <div className="mb-4">
         <label className="block mb-1">Price Range</label>
+        <PriceSlider />
         <div className="flex items-center">
           <input
             type="range"
@@ -113,30 +114,7 @@ const FilterSection: React.FC<FilterProps> = ({ filters, onChange }) => {
           Price Range
         </label>
       </div>
-      <div className="mb-4">
-        <h3 className="font-medium mb-2">Skills</h3>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            name="React"
-            checked={selectedSkills.includes("React")}
-            onChange={() => handleCheckboxChange("React")}
-            className="form-checkbox mr-2"
-          />
-          React
-        </label>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            name="JavaScript"
-            checked={selectedSkills.includes("JavaScript")}
-            onChange={() => handleCheckboxChange("JavaScript")}
-            className="form-checkbox mr-2"
-          />
-          JavaScript
-        </label>
-        {/* Add more skills as needed */}
-      </div>
+      <SkillsFilterContainer />
       <div>
         <h3 className="font-medium mb-2">Location</h3>
         <input
@@ -148,7 +126,7 @@ const FilterSection: React.FC<FilterProps> = ({ filters, onChange }) => {
         />
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default FilterSection;
+export default FilterSection

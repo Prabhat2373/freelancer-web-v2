@@ -37,27 +37,6 @@ const Login = () => {
     router.push("/fl/client")
   }
 
-  // const handleLogin = async (data) => {
-  //   const res = await Login(data)
-  //   console.log("response", res)
-  //   console.log("role", res?.data?.data?.user_account?.role)
-  //   console.log("status", res?.data?.status === "success")
-
-  //   if (res?.data?.status === "success") {
-  //     // dispatch(LoginUser(res?.data?.user_account))
-  //     Cookies.set("token", res?.data?.token)
-  //     console.log("success", res)
-
-  //     if (res?.data?.data?.user_account?.role === "freelancer") {
-  //       dispatch(LoginUser(res?.data?.user_account))
-  //       handleFreelancerLogin()
-  //       console.log("freelanceLogin")
-  //     } else if (res?.data?.data?.user_account?.role === USER_TYPES.CLIENT) {
-  //       dispatch(LoginUser(res?.data?.user_account))
-  //       handleClientLogin()
-  //     }
-  //   }
-  // }
   const handleLogin = async (data, history) => {
     try {
       const res = await Login(data)

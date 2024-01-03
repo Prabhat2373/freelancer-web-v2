@@ -1,20 +1,12 @@
+import Cookies from "js-cookie"
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { baseQuery } from "../baseQuery"
 
 // Define a service using a base URL and expected endpoints
 export const mainApi = createApi({
   reducerPath: "mainApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8001/api/v1/",
-    // credentials: "include",
-    prepareHeaders: (headers, { getState }) => {
-      headers.set(
-        "authorization",
-        `bearer ${String(localStorage.getItem("token"))}`
-      )
-      return headers
-    },
-  }),
+  baseQuery: baseQuery,
   endpoints: (builder) => ({
     login: builder.mutation<any, string>({
       query: (body) => ({
@@ -33,7 +25,7 @@ export const mainApi = createApi({
     }),
     getJobListing: builder.query({
       query: (params) => ({
-        url: `job/listings`,
+        url: `jobs`,
         params,
       }),
     }),

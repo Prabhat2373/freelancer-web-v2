@@ -15,7 +15,7 @@ import storage from "redux-persist/lib/storage"
 import userReducer from "../slices/userReducer"
 import { mainApi } from "@rtk/app/mainApi"
 import onboardingSlice from "../slices/onboardingSlice"
-import { jobApi } from "@rtk/app/jobApi"
+import { jobApi } from "@/features/rtk/jobs/jobsApi"
 import { userApi } from "../rtk/app/userApi"
 import { rtkQueryErrorLogger } from "../rtk/rtkErrorHandler"
 

@@ -91,7 +91,7 @@ const withClientAuth = <P extends object>(
       if (router.pathname.startsWith("/cl") && !isLoading) {
         // Check the user's role only if the pathname starts with "/cl"
         if (!isLoggedIn) {
-          router.replace("/login")
+          // router.replace("/login")
         } else {
           if (user?.role !== USER_TYPES.CLIENT) {
             router.replace(user?.role === USER_TYPES.FREELANCER ? "/fl" : "/")

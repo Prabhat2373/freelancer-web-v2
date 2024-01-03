@@ -18,6 +18,15 @@ export const rtkQueryErrorLogger: Middleware =
       toast.error(action?.payload?.data?.message)
       console.log("errorr")
     }
+    if (action.payload?.status === 401) {
+      toast.error(
+        action?.payload?.data?.message || action?.payload?.data?.error
+      )
+      console.log(
+        "errorr1",
+        action?.payload?.data?.message || action?.payload?.data?.error
+      )
+    }
 
     return next(action)
   }
